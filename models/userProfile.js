@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
-const { Schema } = mongoose;
+const { Schema } = mongoose
+
+const Post = require('./post')
 
 const UserProfileSchema = new Schema({
     userId: {type: Number, required: true},
-    posts: {type: Array}
+    posts: [Post]
 })
 
 const UserProfile = mongoose.model('UserProfile', UserProfileSchema)

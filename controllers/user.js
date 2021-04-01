@@ -1,19 +1,11 @@
 // Imports
 require("dotenv").config();
-const passport = require("passport");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
-// Database
 const db = require("../models");
 
-// Controller
-const test = (req, res) => {
-  res.json({ message: "User endpoint OK! ✅" });
-};
-
-// POST for adding the new user to the database
 const register = (req, res) => {
   console.log(">>>>> Inside of /register");
   console.log(">>>>> req.body");
@@ -109,17 +101,6 @@ const login = async (req, res) => {
   }
 };
 
-// Profile
-const profile = (req, res) => {
-  console.log(">>>>> inside /profile");
-  console.log(req.body);
-  console.log(">>>>> user");
-  console.log(req.user);
-  const { id, firstName, lastName, email } = req.user;
-  res.json({ id: id, firstName, lastName, email });
-};
-
-// Upload profile pic
 const updateUser = async (req, res) => {
   try {
     const firstName = await req.body.firstName;
@@ -130,16 +111,19 @@ const updateUser = async (req, res) => {
     const location = await req.body.bio;
     const userId = await req.user.id;
     const active = await req.user.active;
+    const experience = await req.user.experience;
     const filter = { userId: userId };
     const updated = Date.now();
     let updating = await db.User.findOneAndUpdate(filter, {
-        firstName,
-        lastName,
-        headline,
-        bio,
-        admin,
-        location,
-        active,
+      firstName,
+      lastName,
+      headline,
+      bio,
+      admin,
+      location,
+      active,
+      experience,
+      updated,
     });
     res.redirect(`/jargon/profile/${userId}`);
   } catch (e) {
@@ -149,10 +133,8 @@ const updateUser = async (req, res) => {
 
 // Exports
 module.exports = {
-  test,
   register,
   login,
-  profile,
   updateUser,
   show,
 };

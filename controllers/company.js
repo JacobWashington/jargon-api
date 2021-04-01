@@ -4,17 +4,17 @@ const index = (req, res) => {
   // Purpose: Fetch all Company from DB and return
   console.log("=====> Inside GET /index");
 
-  db.Comment.find({}, (err, foundCompanies) => {
-    if (err) console.log("Error in comment#index:", err);
+  db.Company.find({}, (err, foundCompanies) => {
+    if (err) console.log("Error in company#index:", err);
     res.json(foundCompanies);
   });
 };
 
 const show = (req, res) => {
-  // Purpose: Fetch one comment from DB and return
+  // Purpose: Fetch one company from DB and return
   console.log("=====> Inside GET /company/:id");
   console.log("=====> req.params");
-  console.log(req.params); // object used for finding comment by id
+  console.log(req.params); // object used for finding company by id
 
   db.Company.findById(req.params.id, (err, foundCompany) => {
     if (err) console.log("Error in company#show:", err);
