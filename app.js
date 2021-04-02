@@ -21,6 +21,14 @@ app.get('/jargon/', (req, res) => {
   res.json({message: "Welcome to jargon"});
 });
 
+app.use('/users', routes.User);
+app.use('/companies', routes.Company);
+app.use('/companyprofiles', routes.CompanyProfile);
+app.use('/groups', routes.Group);
+app.use('/post', routes.Post);
+app.use('/comments', routes.Comment);
+app.use('/userprofiles', routes.UserProfile)
+
 // Server
 const server = app.listen(PORT, () =>
   console.log(`Server is running on PORT: ${PORT}`)

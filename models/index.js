@@ -16,13 +16,12 @@ mongoose
 
 
 module.exports = {
-  Comment = require('./comment'),
-  Company = require('./company'),
-  CompanyProfile = require('./companyProfile'),
-  EmploymentData = require('./employmentData'),
-  Experience = require('./experience'),
-  Group = require('./group'),
-  Post = require('./post'),
-  User = require('./user'),
-  UserProfile = require('./userProfile')
+  Comment: require('./comment'),
+  Company: require('./company'),
+  CompanyProfile: require('./companyProfile'),
+  Experience: require('./experience'),
+  Group: require('./group'),
+  Post: require('./post'),
+  User: require('./user'),
+  UserProfile: require('./userProfile')
 };
