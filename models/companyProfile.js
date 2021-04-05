@@ -4,7 +4,7 @@ const Post = require("./post");
 
 const CompanyProfileSchema = new Schema({
   companyId: { type: String, required: true },
-  posts: [Post],
+  posts: [Post.schema],
   admin: { type: Array },
 });
 

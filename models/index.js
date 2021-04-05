@@ -2,6 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 const { MONGO_URL } = process.env;
+
 const configOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -16,12 +17,12 @@ mongoose
 
 
 module.exports = {
-  Comment: require('./comment'),
+  CommentSchema: require('./comment'),
   Company: require('./company'),
   CompanyProfile: require('./companyProfile'),
   Experience: require('./experience'),
   Group: require('./group'),
-  Post: require('./post'),
+  PostSchema: require('./post'),
   User: require('./user'),
   UserProfile: require('./userProfile')
 };

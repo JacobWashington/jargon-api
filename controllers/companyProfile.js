@@ -22,15 +22,12 @@ const show = (req, res) => {
   });
 };
 
-const create = (req, res) => {
-  // Purpose: Create one companyProfile by adding body to DB, and return
-  console.log("=====> Inside create /companyProfile");
-  console.log("=====> req.body");
-  console.log(req.body); // object used for creating new companyProfile
+const create = (companyObj) => {
+  console.log('LOC STORAGE',localStorage)
 
   const newProfile = {
-    companyId: req.body.companyId,
-    admin: [req.user.id],
+    companyId: companyObj._id,
+    admin: localStorage.userId,
   };
 
   db.CompanyProfile.create(

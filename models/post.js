@@ -6,7 +6,7 @@ const Comment = require("./comment");
 const PostSchema = new Schema({
   userId: { type: Number, required: true },
   content: { type: String, requied: true, minLength: 1, maxLength: 5000 },
-  comments: [Comment],
+  comments: [Comment.schema],
 });
 
 const Post = mongoose.model("Post", PostSchema);

@@ -1,5 +1,7 @@
 const db = require("../models");
 
+const CompanyProfile = require('./companyProfile');
+
 const index = (req, res) => {
   // Purpose: Fetch all Company from DB and return
   console.log("=====> Inside GET /index");
@@ -28,16 +30,18 @@ const create = (req, res) => {
   console.log("=====> req.body");
   console.log(req.body); // object used for creating new company
 
-  const newCompany = new db.User({
+  const newCompany = {
     name: req.body.name,
     category: req.body.category,
     about: req.body.about,
     location: req.body.location,
-  });
+    owner: 1111111
+  };
 
   db.Company.create(newCompany, async (err, savedCompany) => {
     res.json(savedCompany);
-  });
+    CompanyProfile.create(savedCompany)
+  })
 };
 
 const update = (req, res) => {

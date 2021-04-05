@@ -9,7 +9,7 @@ const GroupSchema = new Schema({
   members: { type: Array },
   description: { type: String, required: true, minLength: 20, maxLength: 1000 },
   houseRules: { type: String, maxLength: 5000 },
-  posts: [Post],
+  posts: [Post.schema],
 });
 
 const Group = mongoose.model("Group", GroupSchema);

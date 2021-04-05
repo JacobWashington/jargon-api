@@ -3,8 +3,6 @@ const { Schema } = mongoose;
 
 const Experience = require("./experience");
 
-const EmploymentData = require("./employmentData");
-
 const UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -12,14 +10,14 @@ const UserSchema = new Schema({
   password: { type: String, required: true, minLength: 8 },
   headline: { type: String, minLength: 20, maxLength: 280 },
   bio: { type: String, minLength: 20, maxLength: 1000 },
-  admin: { type: Boolean, required: true },
+  admin: { type: Boolean, required: true, default: false },
   connections: { type: Array },
   employmentData: {
-    employer: { type: Number, required: true },
-    jobTitle: { type: String, required: true },
-    dateStart: { type: Date, required: true },
+    employer: { type: Number },
+    jobTitle: { type: String },
+    dateStart: { type: Date },
   },
-  experience: [Experience],
+  experience: [Experience.schema],
   location: {
     city: String,
     state: String,

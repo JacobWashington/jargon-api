@@ -5,52 +5,50 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
 const db = require("../models");
+const { create } = require("../models/comment");
 
-const register = (req, res) => {
-  console.log(">>>>> Inside of /register");
-  console.log(">>>>> req.body");
-  console.log(req.body);
-
-  db.User.findOne({ email: req.body.email })
-    .then((user) => {
-      // if email already exist, a user will come back
-      if (user) {
-        // send a 400 response
-        return res.status(400).json({ message: "Email already exists ⛔️" });
-      } else {
-        // Create new user if no existing user
-        const newUser = new db.User({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: req.body.password,
-        });
-
+const register = async (req, res) => {
+  const foundUser = await db.User.findOne({ email: req.body.email });
+  if (foundUser) {
+    res.json("A user with this email already exists.");
+  } else
+    db.User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+    })
+      .then((createdUser) => {
         // Salt and hash the password - before saving the user
         bcrypt.genSalt(10, (err, salt) => {
           if (err) throw Error;
 
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
+          bcrypt.hash(createdUser.password, salt, (err, hash) => {
             if (err) console.log(">>>>> Error inside of hash", err);
             // Change the password in newUser to the hash
-            newUser.password = hash;
-            newUser
+            createdUser.password = hash;
+            createdUser
               .save() // save the user to the database
               .then((createdUser) => res.json(createdUser))
               .catch((err) => console.log(err));
           });
         });
-      }
-    })
-    .catch((err) => console.log("Error finding user", err));
+
+        db.UserProfile.create({userId: createdUser._id}).then(profile => {
+          res.json(profile)
+        })
+        .catch(err=> {
+          console.log(err)
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 };
 
 const show = (req, res) => {
-  // Purpose: Fetch one user from DB and return
-  // console.log("=====> Inside GET /user/:id");
-  // console.log("=====> req.params");
-  // console.log(req.params); // object used for finding user by id
-  db.User.findById(req.params.id, (err, foundUser) => {
+  const userId = req.params.id || req.body.id;
+  db.User.findById(userId, (err, foundUser) => {
     if (err) console.log("Error in user#show:", err);
     res.json(foundUser);
   });
@@ -102,33 +100,34 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  try {
-    const firstName = await req.body.firstName;
-    const lastName = await req.body.lastName;
-    const headline = await req.body.headline;
-    const bio = await req.body.bio;
-    const admin = await req.body.bio;
-    const location = await req.body.bio;
-    const userId = await req.user.id;
-    const active = await req.user.active;
-    const experience = await req.user.experience;
-    const filter = { userId: userId };
-    const updated = Date.now();
-    let updating = await db.User.findOneAndUpdate(filter, {
-      firstName,
-      lastName,
-      headline,
-      bio,
-      admin,
-      location,
-      active,
-      experience,
-      updated,
-    });
-    res.redirect(`/jargon/profile/${userId}`);
-  } catch (e) {
-    console.log(e.message);
-  }
+  console.log("UPDATE ROUTE");
+
+  const filter = await { userId: req.body.id };
+  const update = await {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    headline: req.body.headline,
+    bio: req.body.bio,
+    admin: req.body.bio,
+    location: req.body.bio,
+    userId: req.body.id,
+    active: req.body.active,
+    experience: req.body.experience,
+    updated: Date.now(),
+  };
+
+  db.User.findOneAndUpdate(
+    filter,
+    update,
+    { new: true },
+    (err, doc) => {
+      console.log("INSIDE OF IF STATEMENT")
+      if (err) {
+        console.log("ERROR IN UPDATE USER", err);
+      }
+      console.log("ELSE STATEMENT",doc);
+    }
+  );
 };
 
 // Exports

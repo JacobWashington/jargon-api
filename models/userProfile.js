@@ -5,7 +5,7 @@ const Post = require('./post')
 
 const UserProfileSchema = new Schema({
     userId: {type: Number, required: true},
-    posts: [Post]
+    posts: [Post.schema]
 })
 
 const UserProfile = mongoose.model('UserProfile', UserProfileSchema)

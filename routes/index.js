@@ -1,7 +1,7 @@
 module.exports = {
     Comment: require('./comment'),
     Company: require('./company'),
-    CompanyProfile = require('./companyProfile'),
+    CompanyProfile: require('./companyProfile'),
     Group: require('./group'),
     Post: require('./post'),
     User: require('./user'),

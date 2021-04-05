@@ -22,14 +22,9 @@ const show = (req, res) => {
   });
 };
 
-const create = (req, res) => {
-  // Purpose: Create one Profile by adding body to DB, and return
-  console.log("=====> Inside create userProfile/Profile");
-  console.log("=====> req.body");
-  console.log(req.body); // object used for creating new Profile
-
+const create = (userId) => {
   const newProfile = {
-    userId: req.user.id,
+    userId,
   };
 
   db.UserProfile.create(
