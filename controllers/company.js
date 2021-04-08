@@ -39,7 +39,7 @@ const create = (req, res) => {
   };
 
   db.Company.create(newCompany, async (err, savedCompany) => {
-    res.json(savedCompany);
+    res.json(savedCompany)
     CompanyProfile.create(savedCompany)
   })
 };

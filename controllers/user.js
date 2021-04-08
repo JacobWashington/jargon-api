@@ -34,7 +34,7 @@ const register = async (req, res) => {
           });
         });
 
-        db.UserProfile.create({userId: createdUser._id}).then(profile => {
+        db.UserProfile.create({userId: createdUser.id}).then(profile => {
           res.json(profile)
         })
         .catch(err=> {
@@ -65,7 +65,6 @@ const login = async (req, res) => {
   if (foundUser) {
     // user is in the DB
     let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
-    console.log(isMatch);
     if (isMatch) {
       // if user matched, then send a JSON Web Token
       // Create a token payload
@@ -101,31 +100,25 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   console.log("UPDATE ROUTE");
-
-  const filter = await { userId: req.body.id };
-  const update = await {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    headline: req.body.headline,
-    bio: req.body.bio,
-    admin: req.body.bio,
-    location: req.body.bio,
-    userId: req.body.id,
-    active: req.body.active,
-    experience: req.body.experience,
-    updated: Date.now(),
+  console.log(req.body)
+  const filter = { _id: req.body._id };
+  const update = {
+    ...req.body,
+    updated: Date.now()
   };
 
   db.User.findOneAndUpdate(
     filter,
     update,
-    { new: true },
+    // { new: true },
     (err, doc) => {
       console.log("INSIDE OF IF STATEMENT")
+      console.log('UPDATE', update)
       if (err) {
         console.log("ERROR IN UPDATE USER", err);
       }
       console.log("ELSE STATEMENT",doc);
+      res.json(doc)
     }
   );
 };

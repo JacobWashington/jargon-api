@@ -12,19 +12,21 @@ const show = (req, res) => {
   });
 };
 
+const showByUserId = (req, res) => {
+  db.Post.findOne(req.params.userId, (err, foundPosts) => {
+    if (err) console.log("Error in post#show:", err);
+    res.json(foundPosts);
+  });
+};
+
 const create = (req, res) => {
-  // Purpose: Create one post by adding body to DB, and return
-  console.log("=====> Inside create /post");
-  console.log("=====> req.body");
-  console.log(req.body); // object used for creating new post
-
-  const newPost = {
-    userId: req.user.id,
-    content: req.body.content,
-  };
-
-  db.Post.create(newPost, async (err, savedPost) => {
-    res.json(savedPost);
+  const payload = {
+    _id: req.body._id,
+    content: req.body.content
+  }
+  db.Post.create(payload, async (err, savedPost) => {
+    console.log()
+    console.log(res.req.user);
   });
 };
 
@@ -62,6 +64,7 @@ const destroy = (req, res) => {
 
 module.exports = {
   show,
+  showByUserId,
   create,
   update,
   destroy,

@@ -21,13 +21,13 @@ app.get('/jargon/', (req, res) => {
   res.json({message: "Welcome to jargon"});
 });
 
-app.use('/users', routes.User);
-app.use('/companies', routes.Company);
-app.use('/companies/:id', routes.CompanyProfile);
-app.use('/groups', routes.Group);
-app.use('/post', routes.Post);
-app.use('/comments', routes.Comment);
-app.use('/userprofiles', routes.UserProfile);
+app.use('/jargon/users', routes.User);
+app.use('/jargon/companies', routes.Company);
+app.use('/jargon/companies/:id', routes.CompanyProfile);
+app.use('/jargon/groups', routes.Group);
+app.use('/jargon/posts', routes.Post);
+app.use('/jargon/comments', routes.Comment);
+app.use('/jargon/userprofiles', routes.UserProfile);
 
 // Server
 const server = app.listen(PORT, () =>

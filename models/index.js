@@ -17,12 +17,12 @@ mongoose
 
 
 module.exports = {
-  CommentSchema: require('./comment'),
+  Comment: require('./comment'),
   Company: require('./company'),
   CompanyProfile: require('./companyProfile'),
   Experience: require('./experience'),
   Group: require('./group'),
-  PostSchema: require('./post'),
+  Post: require('./post'),
   User: require('./user'),
   UserProfile: require('./userProfile')
 };
